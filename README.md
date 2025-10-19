@@ -7,6 +7,7 @@ sdk: gradio
 app_file: app.py
 pinned: false
 ---
+This is my recordedvideo about the assignment:https://drive.google.com/file/d/1TpEV2tHxMHBCJAtz_KaV8ScChiME7MA1/view?usp=sharing
 
 EcoVoyage Travel — Agent-Powered Business Assistant
 
@@ -63,4 +64,5 @@ Optional: Gemini
   - `PROVIDER=gemini`
   - `MODEL=gemini-1.5-flash-latest` (or `gemini-1.5-pro-latest`)
   - `GEMINI_API_KEY=...`
-
+ 
+- 
