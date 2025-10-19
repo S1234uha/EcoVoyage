@@ -1,3 +1,13 @@
+﻿---
+title: EcoVoyage Travel Concierge
+emoji: 🌿
+colorFrom: green
+colorTo: blue
+sdk: gradio
+app_file: app.py
+pinned: false
+---
+
 EcoVoyage Travel — Agent-Powered Business Assistant
 
 EcoVoyage is a fictional, sustainability‑first travel agency with a smart concierge that:
@@ -54,3 +64,4 @@ Optional: Gemini
   - `PROVIDER=gemini`
   - `MODEL=gemini-1.5-flash-latest` (or `gemini-1.5-pro-latest`)
   - `GEMINI_API_KEY=...`
+

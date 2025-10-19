@@ -1,0 +1,2 @@
+﻿-r business_bot/requirements.txt
+
