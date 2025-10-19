@@ -37,9 +37,8 @@ Quickstart (OpenAI)
 
 Try These Prompts
 - “What’s EcoVoyage Travel’s mission and services?”
-- “Plan a 7‑day eco‑friendly Costa Rica itinerary for a family under $2,500.”
-- “I’m Alex, alex@example.com — interested in Patagonia in November. Next steps?”
-- “What’s your refund policy for volcanic disruptions?” (logs feedback)
+- “I’m Alex, alex@example.com — plan for me a trip to lebanon ;ess that 2500$”
+- “What’s the refund policy of hotels in lebanon?” (logs feedback)
 
 Where Data Is Logged
 - Leads: `business_bot\logs\leads.jsonl`
