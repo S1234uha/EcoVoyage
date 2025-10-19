@@ -1,5 +1,5 @@
 ﻿---
-title: EcoVoyage Travel Concierge
+title: EcoVoyage Travel Assistent
 emoji: 🌿
 colorFrom: green
 colorTo: blue
