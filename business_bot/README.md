@@ -37,7 +37,7 @@ Quickstart (OpenAI)
 
 Try These Prompts
 - “What’s EcoVoyage Travel’s mission and services?”
-- “I’m Alex, alex@example.com — plan for me a trip to lebanon ;ess that 2500$”
+- “I’m suha, suha@example.com — plan for me a trip to lebanon less that 2500$”
 - “What’s the refund policy of hotels in lebanon?” (logs feedback)
 
 Where Data Is Logged
