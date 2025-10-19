@@ -1,0 +1,18 @@
+# Python / env
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Env files (keep secrets local)
+.env
+*.env
+*.env.*
+business_bot/.env
+
+# App logs and artifacts
+business_bot/logs/
+
+# OS files
+.DS_Store
+Thumbs.db
