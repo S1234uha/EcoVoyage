@@ -1,34 +1,56 @@
-EcoVoyage Travel — Agent-Powered Business
+EcoVoyage Travel — Agent-Powered Business Assistant
 
-Contents
-- business_summary.txt — narrative about the business
-- about_business.pdf — generated from the summary (run generate_pdf.py)
-- business_agent.ipynb — notebook demo of the agent + tools
-- app.py — Gradio ChatInterface app
-- tools.py — tool functions and OpenAI tool schemas
-- requirements.txt — project deps
-- .env.example — copy to .env and set keys
+EcoVoyage is a fictional, sustainability‑first travel agency with a smart concierge that:
+- Answers questions about trips, mission, team, and services
+- Captures leads (name, email, notes) via tool-calling
+- Logs unknown questions as feedback for follow‑up
+- Uses your business summary and PDF as trusted context
+- Runs as a friendly Gradio chatbot powered by OpenAI
 
-Quickstart
-1) Create a virtualenv and install deps:
-   python -m venv .venv
-   .venv\\Scripts\\pip install -r business_bot/requirements.txt
+Project Contents
+- `business_summary.txt` — business narrative used as context
+- `about_business.pdf` — generated from the summary (`generate_pdf.py`)
+- `business_agent.ipynb` — notebook demo of the agent and tools
+- `app.py` — Gradio ChatInterface app (OpenAI by default)
+- `tools.py` — lead + feedback tools and schemas
+- `requirements.txt` — dependencies
+- `.env.example` — copy to `.env` and set keys
+
+Quickstart (OpenAI)
+1) Create a virtualenv and install dependencies:
+   `python -m venv .venv`
+   `.venv\Scripts\pip install -r business_bot\requirements.txt`
 
 2) Generate the PDF (from the summary):
-   .venv\\Scripts\\python business_bot/generate_pdf.py
+   `.venv\Scripts\python business_bot\generate_pdf.py`
 
-3) Provide API key:
-   copy business_bot/.env.example to .env and set OPENAI_API_KEY
+3) Configure environment (OpenAI):
+   - Copy `business_bot\.env.example` to `business_bot\.env`
+   - Set in `business_bot\.env`:
+     - `PROVIDER=openai`
+     - `MODEL=gpt-4o-mini` (or `gpt-4o`, `gpt-4.1-mini`)
+     - `OPENAI_API_KEY=sk-...`
 
-4) Run the Gradio app:
-   .venv\\Scripts\\python -m business_bot.app
+4) Run the chatbot:
+   `.venv\Scripts\python -m business_bot.app`
+   Open the local URL shown (e.g., http://127.0.0.1:7860)
 
-Gemini setup
-- In `.env`, use:
-  - `PROVIDER=gemini`
-  - `MODEL=gemini-1.5-flash` (or `gemini-1.5-pro`)
-  - `GEMINI_API_KEY=...`
+Try These Prompts
+- “What’s EcoVoyage Travel’s mission and services?”
+- “Plan a 7‑day eco‑friendly Costa Rica itinerary for a family under $2,500.”
+- “I’m Alex, alex@example.com — interested in Patagonia in November. Next steps?”
+- “What’s your refund policy for volcanic disruptions?” (logs feedback)
+
+Where Data Is Logged
+- Leads: `business_bot\logs\leads.jsonl`
+- Feedback: `business_bot\logs\feedback.jsonl`
 
 Notes
-- Tools log to business_bot/logs/ as JSONL files.
-- The agent uses OpenAI’s tool-calling to record leads and feedback.
+- OpenAI is the default provider in this project.
+- Keep real API keys only in `business_bot\.env` (never commit secrets). `.gitignore` excludes env and logs.
+
+Optional: Gemini
+- If you want to try Gemini instead of OpenAI, set in `business_bot\.env`:
+  - `PROVIDER=gemini`
+  - `MODEL=gemini-1.5-flash-latest` (or `gemini-1.5-pro-latest`)
+  - `GEMINI_API_KEY=...`
