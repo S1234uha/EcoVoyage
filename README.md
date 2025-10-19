@@ -7,7 +7,8 @@ sdk: gradio
 app_file: app.py
 pinned: false
 ---
-This is my recordedvideo about the assignment:https://drive.google.com/file/d/1TpEV2tHxMHBCJAtz_KaV8ScChiME7MA1/view?usp=sharing
+This is my recorded video about the assignment:https://drive.google.com/file/d/1TpEV2tHxMHBCJAtz_KaV8ScChiME7MA1/view?usp=sharing
+Thsi is my hugging face space link:https://huggingface.co/spaces/suhaad/Eco-Voyage
 
 EcoVoyage Travel — Agent-Powered Business Assistant
 
