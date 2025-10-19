@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional, Tuple
+import re
 
 from dotenv import load_dotenv
 from pdfminer.high_level import extract_text
@@ -237,6 +238,20 @@ def gradio_chat(user_input: str, history: List[List[str]]):
     else:
         model = os.getenv("MODEL") or "gpt-4o-mini"
 
+    # Deterministic lead capture pre-check (helps on Spaces if model skips tools)
+    def parse_lead(text: str) -> Optional[Tuple[str, str, str]]:
+        email_match = re.search(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", text)
+        if not email_match:
+            return None
+        email = email_match.group(0)
+        name = ""
+        # Simple name heuristics
+        name_match = re.search(r"\b(?:I am|I'm|My name is)\s+([A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)?)", text)
+        if name_match:
+            name = name_match.group(1).strip()
+        message = text.strip()
+        return email, name, message
+
     context = load_context()
     messages: List[Dict[str, str]] = build_initial_messages(context)
 
@@ -246,6 +261,17 @@ def gradio_chat(user_input: str, history: List[List[str]]):
             messages.append({"role": "user", "content": user_msg})
         if assistant_msg:
             messages.append({"role": "assistant", "content": assistant_msg})
+
+    # If the user likely provided contact details, capture the lead immediately
+    lead = parse_lead(user_input)
+    if lead:
+        email, name, msg = lead
+        confirmation = record_customer_interest(email=email, name=name, message=msg)
+        followup = (
+            " If you have preferred dates, budget per traveler, pace, or lodging style,"
+            " share them and I’ll tailor options."
+        )
+        return confirmation + followup
 
     messages.append({"role": "user", "content": user_input})
 
