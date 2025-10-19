@@ -239,18 +239,16 @@ def gradio_chat(user_input: str, history: List[List[str]]):
         model = os.getenv("MODEL") or "gpt-4o-mini"
 
     # Deterministic lead capture pre-check (helps on Spaces if model skips tools)
-    def parse_lead(text: str) -> Optional[Tuple[str, str, str]]:
+    def extract_contact(text: str) -> Tuple[str, str]:
+        # Email
         email_match = re.search(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", text)
-        if not email_match:
-            return None
-        email = email_match.group(0)
+        email = email_match.group(0) if email_match else ""
+        # Name heuristics
         name = ""
-        # Simple name heuristics
-        name_match = re.search(r"\b(?:I am|I'm|My name is)\s+([A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)?)", text)
+        name_match = re.search(r"\b(?:I am|I'm|My name is)\s+([A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)?)", text, re.IGNORECASE)
         if name_match:
             name = name_match.group(1).strip()
-        message = text.strip()
-        return email, name, message
+        return email, name
 
     context = load_context()
     messages: List[Dict[str, str]] = build_initial_messages(context)
@@ -263,15 +261,22 @@ def gradio_chat(user_input: str, history: List[List[str]]):
             messages.append({"role": "assistant", "content": assistant_msg})
 
     # If the user likely provided contact details, capture the lead immediately
-    lead = parse_lead(user_input)
-    if lead:
-        email, name, msg = lead
-        confirmation = record_customer_interest(email=email, name=name, message=msg)
+    email, name = extract_contact(user_input)
+    if email:
+        confirmation = record_customer_interest(email=email, name=name, message=user_input.strip())
         followup = (
             " If you have preferred dates, budget per traveler, pace, or lodging style,"
             " share them and I’ll tailor options."
         )
         return confirmation + followup
+    elif name:
+        # Log a partial lead so there is a JSON entry, and ask for email
+        note = f"Partial lead (no email yet). Message: {user_input.strip()}"
+        record_customer_interest(email="", name=name, message=note)
+        return (
+            f"Thanks, {name}! To record your interest, please share your email address so we can follow up."
+            " You can also include preferred dates, budget per traveler, pace, or lodging style."
+        )
 
     messages.append({"role": "user", "content": user_input})
 
